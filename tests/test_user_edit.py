@@ -1,15 +1,18 @@
+import allure
 import pytest
 
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.my_requests import MyRequests
 
-
+@allure.epic('User edition cases')
 class TestUserEdit(BaseCase):
     def setup_method(self):
         self.url_auth = "/user/"
         self.url_login = "/user/login"
 
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.description('Test if user can edit his own data')
     def test_edit_just_created_user(self):
         # Register
         register_data = self.prepare_registration_data()
@@ -51,6 +54,8 @@ class TestUserEdit(BaseCase):
 
         Assertions.assert_json_value_by_name(response4, 'firstName', new_name, "Wrong first name after edit")
 
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description('Test if unauthorized user can change data')
     def test_not_auth_user_data_change(self):
         #REG new
         data = self.prepare_registration_data()
@@ -62,6 +67,8 @@ class TestUserEdit(BaseCase):
         Assertions.assert_code_status(response2, 400)
         Assertions.assert_content(response2, "Auth token not supplied")
 
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description('Test if authorized user can change another user data')
     @pytest.mark.xfail
     def test_auth_user_data_change_for_another(self):
         changing_data = {
@@ -113,6 +120,8 @@ class TestUserEdit(BaseCase):
         #     f"lastName wasn't edited"
         # )
 
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description('Test if authorized user can change mail, but with wrong value')
     def test_auth_user_change_wrong_email(self):
         changing_data = {
             'email': 'wrongemail.lol.com',
@@ -138,6 +147,8 @@ class TestUserEdit(BaseCase):
         Assertions.assert_code_status(response_edit, 400)
         Assertions.assert_content(response_edit, "Invalid email format")
 
+    @allure.severity(allure.severity_level.MINOR)
+    @allure.description('Test if authorized user can change firstname, but with wrong value')
     def test_auth_user_change_invalid_firstname(self):
         changing_data = {
             'firstName': 'q',

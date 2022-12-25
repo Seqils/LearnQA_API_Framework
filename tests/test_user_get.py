@@ -1,8 +1,10 @@
+import allure
+
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.my_requests import MyRequests
 
-
+@allure.epic('User get-requests cases')
 class TestUserGet(BaseCase):
     def setup_method(self):
         self.id = 2
@@ -14,7 +16,7 @@ class TestUserGet(BaseCase):
             'email': 'vinkotov@example.com',
             'password': '1234'
         }
-
+    @allure.description('Test if anuthorized user can see user data')
     def test_get_user_details_not_auth(self):
         response = MyRequests.get(self.url_not_auth)
         Assertions.assert_json_has_key(response, "username")
@@ -22,6 +24,7 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_no_key(response, "firstName")
         Assertions.assert_json_has_no_key(response, "lastName")
 
+    @allure.description("Test if authorized user can see user data")
     def test_get_user_details_auth_as_same_user(self):
 
         response1 = MyRequests.post(self.url_login, data=self.data)
@@ -37,6 +40,7 @@ class TestUserGet(BaseCase):
         expected_fields = ['username', 'email', 'firstName', 'lastName']
         Assertions.assert_json_has_keys(response2, expected_fields)
 
+    @allure.description('Test if authorized user can see full data of another user')
     def test_get_another_user_data_as_auth_user(self):
         #REG NEW USER
         data = self.prepare_registration_data()
