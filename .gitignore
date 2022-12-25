@@ -2,3 +2,5 @@
 /logs/
 /tests/.pytest_cache/
 /test_results/
+.idea
+
