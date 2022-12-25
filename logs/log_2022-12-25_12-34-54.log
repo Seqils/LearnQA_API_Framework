@@ -1,0 +1,16 @@
+
+-----
+Test: test_user_register.py::TestUserRegister::test_create_user_with_wrong_email (call)
+Time: 2022-12-25 12:34:54.850084
+Request method: POST
+Request URL: https://playground.learnqa.ru/api_dev/user/
+Request data: {'password': '123', 'username': 'learnqa', 'firstName': 'learnqa', 'lastName': 'learnqa', 'email': 'nikita.donkov.fancymail.com'}
+Request headers: {}
+Request cookies: {}
+
+Response code: 400
+Response text: Invalid email format
+Response headers: {'Date': 'Sun, 25 Dec 2022 06:34:57 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': '20', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=10', 'Server': 'Apache'}
+Response cookies: {}
+
+----
