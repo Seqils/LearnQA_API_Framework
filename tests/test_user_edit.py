@@ -1,3 +1,5 @@
+import pytest
+
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.my_requests import MyRequests
@@ -60,7 +62,8 @@ class TestUserEdit(BaseCase):
         Assertions.assert_code_status(response2, 400)
         Assertions.assert_content(response2, "Auth token not supplied")
 
-    def test_auth_user_can_change_data(self):
+    @pytest.mark.xfail
+    def test_auth_user_data_change_for_another(self):
         changing_data = {
             'firstName': 'Guido',
             'lastName': "van Rossum"
@@ -82,13 +85,13 @@ class TestUserEdit(BaseCase):
         auth_sid = self.get_cookie(response_log, "auth_sid")
         token = self.get_headers(response_log, "x-csrf-token")
 
-        #Trying to put as not auth
+        #Trying to put as not the same user
         response_edit = MyRequests.put(self.url_auth + str(user_id),
                                        headers={'x-csrf-token': token},
                                        cookies={'auth_sid': auth_sid},
                                        data=changing_data
                                        )
-        Assertions.assert_code_status(response_edit, 200)
+        Assertions.assert_code_status(response_edit, 400)
 
         # #check data
         # response_check = MyRequests.get(self.url_auth + str(user_id),
