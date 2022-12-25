@@ -40,7 +40,7 @@ class TestUserGet(BaseCase):
     def test_get_another_user_data_as_auth_user(self):
         #REG NEW USER
         data = self.prepare_registration_data()
-        response_reg = MyRequests.post(self.url_auth, data=data)
+        MyRequests.post(self.url_auth, data=data)
         email = data['email']
         password = data['password']
 
