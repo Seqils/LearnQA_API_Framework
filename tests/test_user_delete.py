@@ -92,3 +92,12 @@ class TestUserDelete(BaseCase):
 
         Assertions.assert_code_status(response_del, 400)
 
+        #check if user exist
+        response_check = MyRequests.get(self.url_auth + '/' + str(user_id_sec),
+                                        cookies={'auth_sid': auth_sid},
+                                        headers={'x-csrf-token': token},
+                                        )
+
+        Assertions.assert_code_status(response_del, 400)
+
+
